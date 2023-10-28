@@ -71,6 +71,9 @@ add_to_open(OpenNodes,LNewNodes,depth,NewOpenNodes)
 :- append(LNewNodes,OpenNodes,NewOpenNodes).
 add_to_open(OpenNodes,LNewNodes,astar,NewOpenNodes)
 :- astar_add_to_open(OpenNodes,LNewNodes,NewOpenNodes).
+add_to_open(OpenNodes,LNewNodes,(astar,Maxsize),NewOpenNodes)
+:- astar_add_to_open(OpenNodes,LNewNodes,Nodes),
+   manage_memory(Nodes,Maxsize,NewOpenNodes).
 
 get_path(none,[]) :- !.
 get_path(ID,Path)
