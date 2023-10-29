@@ -37,7 +37,8 @@ init_search(Domain,Initial,Goal,RootID)
 :- retractall(node(_,_,_,_)), 
    retractall(lastID(_)), 
    retractall(solution_node(_)),
-   %nl, writeln('new search now'), nl,
+   retractall(size_info(_,_)),
+   assert(size_info(0,1)),
    make_node(Domain,Initial,Goal,none,none,RootID).
 
 search_rec(Domain,[ID|_],Goal,_,Solution)
@@ -54,16 +55,17 @@ search_rec(Domain,[ID|OpenNodes],Goal,Strategy,Solution)
 
 search_step(Domain,ID,OpenNodes,Goal,Strategy,NewOpenNodes)
 :- search_version(basic),
+   update_size_info(1,-1),
    node(ID,State,_,_),
    actions(Domain,State,LActions),
-   %writeln(State-LActions),
    findall(NewID, ( member(A,LActions), 
                     result(Domain,State,A,NewState),
                     get_path(ID,Path),
                     \+ member(NewState,Path),
                     make_node(Domain,NewState,Goal,ID,A,NewID) ), LNewNodes),
-   add_to_open(OpenNodes,LNewNodes,Strategy,NewOpenNodes).
-
+   add_to_open(OpenNodes,LNewNodes,Strategy,NewOpenNodes),
+   length(LNewNodes,NNewNodes),
+   update_size_info(0,NNewNodes).
 
 add_to_open(OpenNodes,LNewNodes,breadth,NewOpenNodes)
 :- append(OpenNodes,LNewNodes,NewOpenNodes).
@@ -96,25 +98,12 @@ make_node(_,State,_,ParentID,_,NewID)
    assert(node(NewID,State,ParentID,none)),
    assert(lastID(NewID)).
 
-tree_size(Terminals,NonTerminals) % ex. 5
-:- findall(ID, ( node(ID,_,_,_), \+ node(_,_,ID,_) ), L), length(L,Terminals),
-   lastID(Total),NonTerminals is Total-Terminals.
-
-avg_branching_factor(ABF) % ex. 6
-:- tree_size(T,NT),
-   ABF is (T+NT-1)/NT.
-
-:- use_module(library(pairs)).
- 
-sort_nodes_by_evalfunc(Nodes,EvalFunc,SortedNodes)
-:- map_list_to_pairs(EvalFunc, Nodes, Pairs),
-   keysort(Pairs, SortedPairs),
-   pairs_values(SortedPairs, SortedNodes).
+update_size_info(DeltaNT,DeltaT)
+:- retract(size_info(NT,T)),
+   NewNT is NT+DeltaNT,
+   NewT is T+DeltaT,
+   assert(size_info(NewNT,NewT)).
 
 
-
-:- set_prolog_flag(stack_limit, 8_000_000_000).
-%:- set_prolog_flag(stack_limit, 8_589_934_592).
-%:- set_prolog_flag(stack_limit, 60_179_869_184).
-
+:- set_prolog_flag(stack_limit, 25_000_000_000).
 
