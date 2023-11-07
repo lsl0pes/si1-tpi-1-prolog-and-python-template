@@ -39,7 +39,8 @@ init_search(Domain,Initial,Goal,RootID)
    retractall(solution_node(_)),
    retractall(size_info(_,_)),
    assert(size_info(0,1)),
-   make_node(Domain,Initial,Goal,none,none,RootID).
+   make_node(Domain,Initial,Goal,none,none,RootID),
+   tpi1_init(Domain,Initial,Goal,RootID).
 
 search_rec(Domain,[ID|_],Goal,_,Solution)
 :- node(ID,State,_,_),
@@ -47,7 +48,7 @@ search_rec(Domain,[ID|_],Goal,_,Solution)
    assert(solution_node(ID)),
    get_path(ID,Solution).
 search_rec(Domain,[ID|OpenNodes],Goal,Strategy,Solution)
-:- node(ID,_,_,_),
+:- !, node(ID,_,_,_),
    search_step(Domain,ID,OpenNodes,Goal,Strategy,NewOpenNodes),
    %length(OpenNodes,N), writeln(' '-N),
    search_rec(Domain,NewOpenNodes,Goal,Strategy,Solution).
@@ -105,5 +106,5 @@ update_size_info(DeltaNT,DeltaT)
    assert(size_info(NewNT,NewT)).
 
 
-:- set_prolog_flag(stack_limit, 25_000_000_000).
+:- set_prolog_flag(stack_limit, 75_000_000_000).
 

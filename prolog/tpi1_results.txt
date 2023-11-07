@@ -15,9 +15,19 @@ Solution node:(8,706,0,706)
 LastID:245
 
 (A*,maxsize=180):[braga,porto,agueda,coimbra,leiria,santarem,evora,beja,faro]
-Non terminals:85/Terminals:160
+Non terminals:63/Terminals:116
 Solution node:(8,706,0,706)
 LastID:245
+
+(A*,maxsize=160):[guimaraes,porto,agueda,coimbra,leiria,santarem,evora,beja,faro]
+Non terminals:57/Terminals:101
+Solution node:(8,693,0,693)
+LastID:202
+
+(A*,maxsize=150):[guimaraes,porto,agueda,coimbra,leiria,santarem,evora,beja]
+Non terminals:54/Terminals:96
+Solution node:(7,546,0,546)
+LastID:180
 
 Breadth:[lisboa,evora,portalegre,evora,beja,faro,beja,lisboa]
 Non terminals:6220/Terminals:18123
@@ -29,14 +39,13 @@ Non terminals:415/Terminals:1178
 Solution node:(5,803,0,803)
 LastID:1593
 
-A* : [lisboa,santarem,portalegre,evora,beja,lisboa]
+A*(a):[lisboa,santarem,portalegre,evora,beja,lisboa]
 Non terminals:250/Terminals:738
 Solution node:(5,716,0,716)
 LastID:988
 
-A* : [aveiro,porto,braga,porto,agueda,coimbra,leiria,coimbra,aveiro]
+A*(b):[aveiro,porto,braga,porto,agueda,coimbra,leiria,coimbra,aveiro]
 Non terminals:3543/Terminals:9496
 Solution node:(8,527,0,527)
 LastID:13039
-
 

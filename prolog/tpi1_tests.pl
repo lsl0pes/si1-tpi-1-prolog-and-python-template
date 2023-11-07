@@ -5,9 +5,7 @@
 
 % example
 
-
 :- configure_search(tpi1).
-
 
 :- search(cidades,braga,faro,depth,Solution), 
    writeln('Depth':Solution),
@@ -33,6 +31,19 @@
    solution_node(ID), node(ID,_,_,Data), writeln('Solution node':Data),
    lastID(LastID), writeln('LastID':LastID), nl.
 
+:- search(cidades,guimaraes,faro,(astar,160),Solution), 
+   writeln(('A*',maxsize=160):Solution),
+   size_info(NT,T), writeln('Non terminals':NT / 'Terminals':T),
+   solution_node(ID), node(ID,_,_,Data), writeln('Solution node':Data),
+   lastID(LastID), writeln('LastID':LastID), nl.
+
+
+:- search(cidades,guimaraes,beja,(astar,150),Solution), 
+   writeln(('A*',maxsize=150):Solution),
+   size_info(NT,T), writeln('Non terminals':NT / 'Terminals':T),
+   solution_node(ID), node(ID,_,_,Data), writeln('Solution node':Data),
+   lastID(LastID), writeln('LastID':LastID), nl.
+
 %
 
 :- orderdelivery_search(lisboa,[faro,beja,evora,portalegre],breadth,Solution),
@@ -51,14 +62,14 @@
 
 :- orderdelivery_search(lisboa,[beja,evora,portalegre],astar,Solution),
    findall(C,member((C,_),Solution),Path),
-   writeln('A*':Path),
+   writeln('A*(a)':Path),
    size_info(NT,T), writeln('Non terminals':NT / 'Terminals':T),
    solution_node(ID), node(ID,_,_,Data), writeln('Solution node':Data),
    lastID(LastID), writeln('LastID':LastID), nl.
 
 :- orderdelivery_search(aveiro,[coimbra,porto,braga,leiria],astar,Solution),
    findall(C,member((C,_),Solution),Path),
-   writeln('A*':Path),
+   writeln('A*(b)':Path),
    size_info(NT,T), writeln('Non terminals':NT / 'Terminals':T),
    solution_node(ID), node(ID,_,_,Data), writeln('Solution node':Data),
    lastID(LastID), writeln('LastID':LastID), nl.
